@@ -32,7 +32,13 @@
 
 void setup()
 {
+    // Start I^2C
+#if defined(__MK20DX256__) // Teensy 3.1/2
+     Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, 400000);
+#else
     Wire.begin();
+#endif
+
 
     MB1242::changeAddress(OLDADDR, NEWADDR);
 }
