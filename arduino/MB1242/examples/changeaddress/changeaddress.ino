@@ -19,8 +19,13 @@
    along with MB1242_Arduino.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Wire.h>
 #include <MB1242.h>
+
+#if defined(__MK20DX256__) // Teensy 3.1/2
+#include <i2c_t3.h>
+#else
+#include <Wire.h>
+#endif
 
 #define OLDADDR 0x70
 #define NEWADDR 0x72

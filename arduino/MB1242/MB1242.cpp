@@ -20,9 +20,15 @@
  */
 
 #include "MB1242.h"
+
 #include <stdint.h>
-#include <Arduino.h>
+//#include <Arduino.h>
+
+#if defined(__MK20DX256__) // Teensy 3.1/2
+#include <i2c_t3.h>
+#else
 #include <Wire.h>
+#endif
 
 #define CYCLE_PERIOD_USEC 10000
 

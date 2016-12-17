@@ -19,15 +19,26 @@
    along with MB1242_Arduino.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <Wire.h>
 #include <MB1242.h>
+
+#if defined(__MK20DX256__) // Teensy 3.1/2
+#include <i2c_t3.h>
+#else
+#include <Wire.h>
+#endif
+
 
 MB1242 sonar;
 
 void setup()
 {
     // Start I^2C
+#if defined(__MK20DX256__) // Teensy 3.1/2
+     Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_INT, 400000);
+#else
     Wire.begin();
+#endif
+
 
     // Start sonar
     sonar.begin();
