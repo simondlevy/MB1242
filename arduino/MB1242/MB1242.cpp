@@ -22,7 +22,7 @@
 #include "MB1242.h"
 
 #include <stdint.h>
-//#include <Arduino.h>
+#include <Arduino.h>
 
 #if defined(__MK20DX256__) // Teensy 3.1/2
 #include <i2c_t3.h>
