@@ -1,0 +1,4 @@
+MB1242		KEYWORD1
+begin		KEYWORD2
+changeAddress	KEYWORD2
+getDistance	KEYWORD2
