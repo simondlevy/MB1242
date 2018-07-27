@@ -19,24 +19,30 @@
    along with MB1242_Arduino.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
+
+#include <stdint.h>
+
 class MB1242 {
 
     private:
 
-        static const int DFLT_ADDR = 0x70;
+        static const uint8_t  DFLT_ADDR = 0x70;
 
-        int addr;
-        int state;
-        int distance;
-        unsigned int time;
+        static const uint32_t CYCLE_PERIOD_USEC = 10000;
+
+        uint8_t  _addr;
+        uint8_t  _state;
+        uint16_t _distance;
+        uint32_t _time;
 
         bool attempt_write(void);
 
     public:
 
-        void begin(unsigned char address=DFLT_ADDR);
+        void begin(uint8_t address=DFLT_ADDR);
 
-        static void changeAddress(unsigned char oldaddr, unsigned char newaddr);
+        static void changeAddress(uint8_t oldaddr, uint8_t newaddr);
 
-        int getDistance(void);
+        uint16_t getDistance(void);
 };

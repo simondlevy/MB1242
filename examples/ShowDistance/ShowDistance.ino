@@ -1,8 +1,8 @@
 /*
-   changeaddress.ino change I^2C address on MaxBotix MB1242 sonar
+   ShowDistance.ino show distances read by MaxBotix MB1242 sonar
 
-   Copyright (C) 2016 Simon D. Levy 
-   
+   Copyright (C) 2016 Simon D. Levy and Matt Lubas
+
    This file is part of MB1242_Arduino.
 
    MB1242_Arduino is free software: you can redistribute it and/or modify
@@ -27,8 +27,7 @@
 #include <Wire.h>
 #endif
 
-#define OLDADDR 0x70
-#define NEWADDR 0x72
+static MB1242 sonar;
 
 void setup()
 {
@@ -40,10 +39,17 @@ void setup()
 #endif
 
 
-    MB1242::changeAddress(OLDADDR, NEWADDR);
+    // Start sonar
+    sonar.begin();
+
+    // Start serial
+    Serial.begin(38400);
+    while (!Serial);   // Leonardo: wait for serial monitor
 }
 
 
 void loop()
 {
+    Serial.print(sonar.getDistance());
+    Serial.println(" cm");
 }

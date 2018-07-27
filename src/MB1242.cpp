@@ -21,23 +21,20 @@
 
 #include "MB1242.h"
 
-#include <stdint.h>
-#include <Arduino.h>
+#include <CrossPlatformI2C.h>
 
-#if defined(__MK20DX256__) // Teensy 3.1/2
-#include <i2c_t3.h>
+#if defined(ARDUINO)
+#include <Arduino.h>
 #else
-#include <Wire.h>
+extern uint32_t micros(void);
 #endif
 
-#define CYCLE_PERIOD_USEC 10000
-
-static void update_timed_task(unsigned int * usec, uint32_t period)
+static void update_timed_task(uint32_t * usec, uint32_t period)
 {
     *usec = micros() + period;
 }
 
-static bool check_and_update_timed_task(unsigned int * usec, uint32_t period)
+static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 {
     bool result = (int32_t)(micros() - *usec) >= 0;
 
@@ -49,52 +46,52 @@ static bool check_and_update_timed_task(unsigned int * usec, uint32_t period)
 
 bool MB1242::attempt_write(void)
 {
-    Wire.beginTransmission(this->addr);
-    Wire.write(0x51);
-    return !Wire.endTransmission();
+    cpi2c_beginTransmission(_addr);
+    cpi2c_write(0x51);
+    return !cpi2c_endTransmission();
 }
 
 
-void MB1242::begin(unsigned char address)
+void MB1242::begin(uint8_t address)
 {
-    this->addr = address;
-    this->state = 0;
-    this->distance = 0;
-    this->time = 0;
+    _addr = address;
+    _state = 0;
+    _distance = 0;
+    _time = 0;
 }
 
-void MB1242::changeAddress(unsigned char oldaddr, unsigned char newaddr)
+void MB1242::changeAddress(uint8_t oldaddr, uint8_t newaddr)
 {
-    Wire.beginTransmission(oldaddr);
-    Wire.write(0xAA);
-    Wire.write(0xA5);
-    Wire.write(newaddr<<1); // write twice the new address, to support seven-bit addressing
-    Wire.endTransmission();
+    cpi2c_beginTransmission(oldaddr);
+    cpi2c_write(0xAA);
+    cpi2c_write(0xA5);
+    cpi2c_write(newaddr<<1); // write twice the new address, to support seven-bit addressing
+    cpi2c_endTransmission();
 }
 
 
-int MB1242::getDistance(void)
+uint16_t MB1242::getDistance(void)
 {
-    if (check_and_update_timed_task(&this->time, CYCLE_PERIOD_USEC)) {
+    if (check_and_update_timed_task(&_time, CYCLE_PERIOD_USEC)) {
 
-        if (this->state == 0) {
+        if (_state == 0) {
             if (attempt_write())
-                this->state++;
+                _state++;
         }
-        else if (this->state == 1) {
+        else if (_state == 1) {
             uint8_t bytes[2];
-            Wire.requestFrom(this->addr, 2);
-            if (Wire.available() == 2) {
-                bytes[0] = Wire.read();
-                bytes[1] = Wire.read();
-                this->distance = (bytes[0] << 8) + bytes[1];
-                this->state++;
+            cpi2c_requestFrom(_addr, 2);
+            if (cpi2c_available() == 2) {
+                bytes[0] = cpi2c_read();
+                bytes[1] = cpi2c_read();
+                _distance = (bytes[0] << 8) + bytes[1];
+                _state++;
             }
         }
         else {
-            this->state = 0;
+            _state = 0;
         }
     }
 
-    return this->distance;
+    return _distance;
 }
