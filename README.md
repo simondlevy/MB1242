@@ -11,5 +11,5 @@ your Arduino/libraries folder as well.
 
 The MB1242 library provides a simple API for reading distance in centimeters
 from the MaxBotix MB1242 I<sup>2</sup>C sensor.  Although the datasheet for this sensor
-indicates an operating voltage of 3-5.5V, I've had the most success with it by powering it from
-the 5V source like the 5V pin on Arduino Uno, or Vin on a microcontroller powered by USB.
+indicates an operating voltage of 3-5.5V, I've had the most success with it by powering the
+microcontroller from an external power supply.
