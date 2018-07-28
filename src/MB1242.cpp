@@ -67,10 +67,7 @@ uint16_t MB1242::getDistance(void)
         }
         else if (_state == 1) {
             uint8_t bytes[2];
-            cpi2c_requestFrom(_addr, 2);
-            if (cpi2c_available() == 2) {
-                bytes[0] = cpi2c_read();
-                bytes[1] = cpi2c_read();
+            if (cpi2c_readRegisters(_addr, 0x00, 2, bytes)) {
                 _distance = (bytes[0] << 8) + bytes[1];
                 _state++;
             }
