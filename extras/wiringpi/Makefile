@@ -38,7 +38,7 @@ ShowDistance: ShowDistance.o MB1242.o WiringPiI2C.o main.o
 ShowDistance.o: ShowDistance.cpp 
 	g++ -std=c++11 -Wall -I$(I2CINC) -I$(MBSRC) -c ShowDistance.cpp
 
-MB1242.o: $(MBSRC)/MB1242.cpp 
+MB1242.o: $(MBSRC)/MB1242.cpp  $(MBSRC)/MB1242.h
 	g++ -std=c++11 -Wall -I$(I2CINC) -I$(MBSRC) -c $(MBSRC)/MB1242.cpp
 
 WiringPiI2C.o: $(I2CSRC)/WiringPiI2C.cpp 

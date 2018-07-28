@@ -29,16 +29,9 @@ class MB1242 {
 
         static const uint8_t  DFLT_ADDR = 0x70;
 
-        // 100msec delay recommended by https://www.maxbotix.com/documents/I2CXL-MaxSonar-EZ_Datasheet.pdf
-        static const uint32_t CYCLE_PERIOD_USEC = 100000;
-
         uint8_t  _addr;
-        uint32_t _time;
-        uint8_t  _state;
 
     public:
-
-        void foo(void);
 
         void begin(uint8_t address=DFLT_ADDR);
 
