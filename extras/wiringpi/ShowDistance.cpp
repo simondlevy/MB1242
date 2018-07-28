@@ -34,12 +34,11 @@ void setup()
     sonar.begin();
 }
 
-
 void loop()
 {
-    sonar.requestDistance();
+    //sonar.requestDistance();
+    //delay(100);
+    //printf("%dcm\n", sonar.getDistance());
 
-    delay(100);
-
-    printf("%dcm\n", sonar.getDistance());
+    sonar.foo();
 }

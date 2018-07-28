@@ -32,11 +32,14 @@ class MB1242 {
         static const uint32_t CYCLE_PERIOD_USEC = 10000;
 
         uint8_t  _addr;
-        uint8_t  _state;
-        uint16_t _distance;
+
         uint32_t _time;
+        bool     _waiting;
+        uint8_t  _state;
 
     public:
+
+        void foo(void);
 
         void begin(uint8_t address=DFLT_ADDR);
 
