@@ -27,13 +27,13 @@ class MB1242 {
 
     private:
 
-        static const uint8_t  DFLT_ADDR = 0x70;
-
         uint8_t  _addr;
 
     public:
 
-        void begin(uint8_t address=DFLT_ADDR);
+        static const uint8_t  DEFAULT_ADDRESS = 0x70;
+
+        void begin(uint8_t address=DEFAULT_ADDRESS, uint8_t bus=1);
 
         static void changeAddress(uint8_t oldaddr, uint8_t newaddr);
 

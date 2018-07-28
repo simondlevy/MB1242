@@ -23,9 +23,9 @@
 
 #include <CrossPlatformI2C.h>
 
-void MB1242::begin(uint8_t address)
+void MB1242::begin(uint8_t address, uint8_t bus)
 {
-    _addr = cpi2c_open(address);
+    _addr = cpi2c_open(address, bus);
 }
 
 void MB1242::changeAddress(uint8_t oldaddr, uint8_t newaddr)
