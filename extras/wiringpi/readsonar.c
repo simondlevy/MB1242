@@ -22,17 +22,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// Updates a timed task
-static bool check_and_update_timed_task(unsigned long * usec, uint32_t period) 
-{
-    bool result = (int32_t)(micros() - *usec) >= 0;
-
-    if (result)
-        *usec = micros() + period;
-
-    return result;
-}
-
 int main(int argc, char ** argv)
 {
     // Connect to MB1242 at seven-bit address 0x70
@@ -43,27 +32,22 @@ int main(int argc, char ** argv)
         exit(1);
     }
 
-    // Initialize a timed task to wait a fixed period between request and read
-    unsigned long tasktime = micros();
+    while (true) {
 
-    int count = 0;
+        // Make a new request
+        wiringPiI2CWriteReg8 (fd, 0x00, 0x51) ;
 
-    while (true) 
+        delay(500);
 
-        // Wait 50000 microseconds between request and read
-        if (check_and_update_timed_task(&tasktime, 100000)) {
+        // Read two-byte value from the MB1242
+        uint16_t tmp = wiringPiI2CReadReg16 (fd, 0x00);
 
-            // Read two-byte value from the MB1242
-            uint16_t tmp = wiringPiI2CReadReg16 (fd, 0x00);
+        // Reverse endianness to get distance
+        int16_t distance_cm = (tmp>>8) | (tmp<<8);
 
-            // Reverse endianness to get distance
-            int16_t distance_cm = (tmp>>8) | (tmp<<8);
+        printf("%d\n", distance_cm);
 
-            printf("%d\n", distance_cm);
-
-            // Make a new request
-            wiringPiI2CWriteReg8 (fd, 0x00, 0x51) ;
-        }
+    }
 
     return 0;
 }
