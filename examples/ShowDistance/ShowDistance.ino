@@ -38,18 +38,21 @@ void setup()
     Wire.begin();
 #endif
 
-
     // Start sonar
     sonar.begin();
 
     // Start serial
-    Serial.begin(38400);
-    while (!Serial);   // Leonardo: wait for serial monitor
+    Serial.begin(115200);
 }
 
 
 void loop()
 {
+    sonar.requestDistance();
+
+    // 100msec delay recommended by https://www.maxbotix.com/documents/I2CXL-MaxSonar-EZ_Datasheet.pdf
+    delay(100);
+
     Serial.print(sonar.getDistance());
     Serial.println(" cm");
 }

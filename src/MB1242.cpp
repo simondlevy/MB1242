@@ -40,7 +40,7 @@ void MB1242::requestDistance(void)
 
 uint16_t MB1242::getDistance(void)
 {
-    uint16_t tmp = cpi2c_readRegister16(_addr, 0x00);
+    uint16_t tmp = cpi2c_readRegister_8_16(_addr, 0x00);
 
     // Reverse endianness to get distance
     uint16_t distance = (tmp>>8) | (tmp<<8);
