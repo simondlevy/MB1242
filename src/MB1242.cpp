@@ -46,11 +46,8 @@ static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 
 bool MB1242::attempt_write(void)
 {
-    cpi2c_beginTransmission(_addr);
-    cpi2c_write(0x51);
-    return !cpi2c_endTransmission();
+    return cpi2c_writeRegister(_addr, 0x00, 0x51) > 0;
 }
-
 
 void MB1242::begin(uint8_t address)
 {
