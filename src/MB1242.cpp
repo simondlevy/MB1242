@@ -30,21 +30,19 @@
 extern "C" { uint32_t micros(void); }
 #endif
 
-#include <stdio.h>
-
 void MB1242::begin(uint8_t address)
 {
     _addr = cpi2c_open(address);
 
-    _waiting = false;
     _state = 0;
+    _time = 0;
 }
 
 void MB1242::foo(void)
 {
     uint32_t time = micros();
 
-    if ((time - _time) > 100000) {
+    if ((time - _time) > CYCLE_PERIOD_USEC) {
 
         if (_state == 0) {
             cpi2c_writeRegister(_addr, 0x00, 0x51);
@@ -53,7 +51,9 @@ void MB1242::foo(void)
         else if (_state == 1) {
             uint16_t tmp = cpi2c_readRegister_8_16(_addr, 0x00);
             uint16_t distance = (tmp>>8) | (tmp<<8);
-            printf("x%02X %d\n", tmp, distance);
+            Serial.print(tmp, HEX);
+            Serial.print(" ");
+            Serial.println(distance);
             _state++;
         }
 
