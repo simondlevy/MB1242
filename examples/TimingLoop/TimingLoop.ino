@@ -1,8 +1,10 @@
 /*
-   ChangeAddress.ino change I^2C address on MaxBotix MB1242 sonar
+   TimingLoop.ino show distances read by MaxBotix MB1242 sonar
 
-   Copyright (C) 2016 Simon D. Levy 
-   
+   This version uses an efficient timing loop instead of a delay
+
+   Copyright (C) 2018 Simon D. Levy
+
    This file is part of MB1242.
 
    MB1242 is free software: you can redistribute it and/or modify
@@ -27,8 +29,7 @@
 #include <Wire.h>
 #endif
 
-static const uint8_t OLDADDR = 0x70;
-static const uint8_t NEWADDR = 0x72;
+static MB1242 sonar;
 
 void setup()
 {
@@ -39,11 +40,34 @@ void setup()
     Wire.begin();
 #endif
 
+    // Start sonar
+    sonar.begin();
 
-    MB1242::changeAddress(OLDADDR, NEWADDR);
+    // Start serial
+    Serial.begin(115200);
 }
 
 
 void loop()
 {
+    static uint32_t prevtime;
+    static bool requested;
+
+    if (requested) {
+
+        uint32_t time = millis();
+
+        // 100msec delay recommended by https://www.maxbotix.com/documents/I2CXL-MaxSonar-EZ_Datasheet.pdf
+        if ((time-prevtime) > 100) {
+            Serial.print(sonar.getDistance());
+            Serial.println("cm");
+            prevtime = time;
+            requested = false;
+        }
+    }
+
+    else {
+        sonar.requestDistance();
+        requested= true;
+    }
 }
