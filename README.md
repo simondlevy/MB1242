@@ -4,7 +4,7 @@ The [MB1242](http://www.maxbotix.com/Ultrasonic_Sensors/MB1242.htm)
 rangefinder from MaxBotix is an inexpensive I<sup>2</sup>C-based ultrasonic (sonar) sensor that can provide
 distances between 20mm and 765mm.  Likes its UART-based MB1240 sibling, it is the sonar unit that MaxBotix
 recommends for use on Unmanned Aerial Vehicles.  Because I like to work with
-this and others sensors on a variety of platforms (Android, RasperryPi, NVIDIA Jetson), I've written
+this and others sensors on a variety of platforms (Arduino, RasperryPi, NVIDIA Jetson), I've written
 a little library that will allow you to use the MB1242 on any of these
 platforms, [CrossPlatformI2C](https://github.com/simondlevy/CrossPlatformI2C), which you will need to clone into
 your Arduino/libraries folder as well.
