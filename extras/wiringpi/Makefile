@@ -23,7 +23,7 @@
 # Change this to whereever you installed CrossPlatformI2C
 CPI2C = $(HOME)/CrossPlatformI2C/
 
-ALL = ShowDistance  readsonar
+ALL = ShowDistance
 
 MBSRC = ../../src
 
@@ -46,9 +46,6 @@ WiringPiI2C.o: $(I2CSRC)/WiringPiI2C.cpp
 
 main.o: main.cpp 
 	g++ -std=c++11 -Wall -c main.cpp
-
-readsonar: readsonar.c
-		gcc -o readsonar readsonar.c -lwiringPi -lpthread
 
 edit:
 	vim ShowDistance.cpp
