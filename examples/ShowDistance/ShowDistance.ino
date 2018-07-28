@@ -48,15 +48,12 @@ void setup()
 
 void loop()
 {
-    sonar.foo();
-    
-    /*
     sonar.requestDistance();
 
     // 100msec delay recommended by https://www.maxbotix.com/documents/I2CXL-MaxSonar-EZ_Datasheet.pdf
     delay(100);
 
     Serial.print(sonar.getDistance());
+
     Serial.println(" cm");
-    */
 }

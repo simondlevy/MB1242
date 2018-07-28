@@ -37,6 +37,9 @@ void setup()
 void loop()
 {
     sonar.requestDistance();
+
+    // 100msec delay recommended by https://www.maxbotix.com/documents/I2CXL-MaxSonar-EZ_Datasheet.pdf
     delay(100);
+
     printf("%dcm\n", sonar.getDistance());
 }
