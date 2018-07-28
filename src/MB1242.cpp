@@ -44,11 +44,6 @@ static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
     return result;
 }
 
-bool MB1242::attempt_write(void)
-{
-    return cpi2c_writeRegister(_addr, 0x00, 0x51) > 0;
-}
-
 void MB1242::begin(uint8_t address)
 {
     _addr = address;
@@ -67,7 +62,7 @@ uint16_t MB1242::getDistance(void)
     if (check_and_update_timed_task(&_time, CYCLE_PERIOD_USEC)) {
 
         if (_state == 0) {
-            if (attempt_write())
+            if (cpi2c_writeRegister(_addr, 0x00, 0x51) > 0)
                 _state++;
         }
         else if (_state == 1) {

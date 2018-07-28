@@ -36,8 +36,6 @@ class MB1242 {
         uint16_t _distance;
         uint32_t _time;
 
-        bool attempt_write(void);
-
     public:
 
         void begin(uint8_t address=DFLT_ADDR);
