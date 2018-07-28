@@ -1,15 +1,11 @@
 /*
  readsonar.c : MB1242_WiringPi example
-
  Copyright (C) Simon D. Levy 2016
-
  This file is part of MB1242_WiringPi.
-
  MB1242_WiringPi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
-
  MB1242_WiringPi is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -58,7 +54,7 @@ int main(int argc, char ** argv)
         if (check_and_update_timed_task(&tasktime, 100000)) {
 
             // Read two-byte value from the MB1242
-            uint16_t tmp = wiringPiI2CReadReg16 (fd, 0x8F);
+            uint16_t tmp = wiringPiI2CReadReg16 (fd, 0x00);
 
             // Reverse endianness to get distance
             int16_t distance_cm = (tmp>>8) | (tmp<<8);

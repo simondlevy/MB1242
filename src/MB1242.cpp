@@ -26,7 +26,7 @@
 #if defined(ARDUINO)
 #include <Arduino.h>
 #else
-extern uint32_t micros(void);
+extern "C" { extern unsigned int micros(void);}
 #endif
 
 static void update_timed_task(uint32_t * usec, uint32_t period)
@@ -46,7 +46,7 @@ static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
 
 void MB1242::begin(uint8_t address)
 {
-    _addr = address;
+    _addr = cpi2c_open(address);
     _state = 0;
     _distance = 0;
     _time = 0;

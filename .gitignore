@@ -1,0 +1,3 @@
+*.o
+extras/wiringPi/ShowDistance
+extras/wiringPi/readsonar
