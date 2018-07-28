@@ -37,5 +37,9 @@ void setup()
 
 void loop()
 {
+    sonar.requestDistance();
+
+    delay(100);
+
     printf("%dcm\n", sonar.getDistance());
 }

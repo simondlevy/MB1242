@@ -23,33 +23,9 @@
 
 #include <CrossPlatformI2C.h>
 
-#if defined(ARDUINO)
-#include <Arduino.h>
-#else
-extern "C" { extern unsigned int micros(void);}
-#endif
-
-static void update_timed_task(uint32_t * usec, uint32_t period)
-{
-    *usec = micros() + period;
-}
-
-static bool check_and_update_timed_task(uint32_t * usec, uint32_t period)
-{
-    bool result = (int32_t)(micros() - *usec) >= 0;
-
-    if (result)
-        update_timed_task(usec, period);
-
-    return result;
-}
-
 void MB1242::begin(uint8_t address)
 {
     _addr = cpi2c_open(address);
-    _state = 0;
-    _distance = 0;
-    _time = 0;
 }
 
 void MB1242::changeAddress(uint8_t oldaddr, uint8_t newaddr)
@@ -57,25 +33,18 @@ void MB1242::changeAddress(uint8_t oldaddr, uint8_t newaddr)
     cpi2c_writeRegister_16_8(oldaddr, 0xAAA5, newaddr<<1); // support seven-bit addressing
 }
 
+void MB1242::requestDistance(void)
+{
+    cpi2c_writeRegister(_addr, 0x00, 0x51);
+}
+
 uint16_t MB1242::getDistance(void)
 {
-    if (check_and_update_timed_task(&_time, CYCLE_PERIOD_USEC)) {
+    uint16_t tmp = cpi2c_readRegister16(_addr, 0x00);
 
-        if (_state == 0) {
-            if (cpi2c_writeRegister(_addr, 0x00, 0x51) > 0)
-                _state++;
-        }
-        else if (_state == 1) {
-            uint8_t bytes[2];
-            if (cpi2c_readRegisters(_addr, 0x00, 2, bytes)) {
-                _distance = (bytes[0] << 8) + bytes[1];
-                _state++;
-            }
-        }
-        else {
-            _state = 0;
-        }
-    }
+    // Reverse endianness to get distance
+    uint16_t distance = (tmp>>8) | (tmp<<8);
 
-    return _distance;
+    return distance;
+
 }

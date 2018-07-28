@@ -42,5 +42,7 @@ class MB1242 {
 
         static void changeAddress(uint8_t oldaddr, uint8_t newaddr);
 
+        void requestDistance(void);
+
         uint16_t getDistance(void);
 };
