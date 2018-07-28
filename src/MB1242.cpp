@@ -59,13 +59,8 @@ void MB1242::begin(uint8_t address)
 
 void MB1242::changeAddress(uint8_t oldaddr, uint8_t newaddr)
 {
-    cpi2c_beginTransmission(oldaddr);
-    cpi2c_write(0xAA);
-    cpi2c_write(0xA5);
-    cpi2c_write(newaddr<<1); // write twice the new address, to support seven-bit addressing
-    cpi2c_endTransmission();
+    cpi2c_writeRegister_16_8(oldaddr, 0xAAA5, newaddr<<1); // support seven-bit addressing
 }
-
 
 uint16_t MB1242::getDistance(void)
 {

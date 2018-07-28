@@ -27,8 +27,8 @@
 #include <Wire.h>
 #endif
 
-#define OLDADDR 0x70
-#define NEWADDR 0x72
+static const uint8_t OLDADDR = 0x70;
+static const uint8_t NEWADDR = 0x72;
 
 void setup()
 {
