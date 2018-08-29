@@ -6,8 +6,8 @@ distances between 20mm and 765mm.  Likes its UART-based MB1240 sibling, it is th
 recommends for use on Unmanned Aerial Vehicles.  Because I like to work with
 this and others sensors on a variety of platforms (Arduino, RasperryPi, NVIDIA Jetson), I've written
 a little library that will allow you to use the MB1242 on any of these
-platforms, [CrossPlatformI2C](https://github.com/simondlevy/CrossPlatformI2C), which you will need to clone into
-your Arduino/libraries folder as well.
+platforms, [CrossPlatformDataBus](https://github.com/simondlevy/CrossPlatformDataBus),
+which you will need to clone into your Arduino/libraries folder as well.
 
 The MB1242 library provides a simple API for reading distance in centimeters
 from the MaxBotix MB1242 I<sup>2</sup>C sensor.  Although the datasheet for this sensor
