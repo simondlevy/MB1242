@@ -20,15 +20,16 @@
 #
 # Library may be used freely and without limit with attribution.
 #  
-# Change this to whereever you installed CrossPlatformI2C
-CPI2C = $(HOME)/CrossPlatformI2C/
+# Change this to whereever you installed CrossPlatformDataBus
+CPDB = $(HOME)/CrossPlatformDataBus/
 
 ALL = ShowDistance
 
 MBSRC = ../../src
 
-I2CINC = $(CPI2C)/src
-I2CSRC = $(CPI2C)/extras/wiringpi/src
+CPSRC  = $(CPDB)/src
+CPEXT  = $(CPDB)/extras
+I2CSRC = $(CPDB)/extras/i2c/wiringpi/src
 
 all: $(ALL)
 
@@ -36,16 +37,16 @@ ShowDistance: ShowDistance.o MB1242.o WiringPiI2C.o main.o
 	g++ -std=c++11 -o ShowDistance ShowDistance.o MB1242.o WiringPiI2C.o main.o -lwiringPi
 
 ShowDistance.o: ShowDistance.cpp 
-	g++ -std=c++11 -Wall -I$(I2CINC) -I$(MBSRC) -c ShowDistance.cpp
+	g++ -std=c++11 -Wall -I$(CPSRC) -I$(MBSRC) -c ShowDistance.cpp
 
 MB1242.o: $(MBSRC)/MB1242.cpp  $(MBSRC)/MB1242.h
-	g++ -std=c++11 -Wall -I$(I2CINC) -I$(MBSRC) -c $(MBSRC)/MB1242.cpp
+	g++ -std=c++11 -Wall -I$(CPSRC) -I$(MBSRC) -c $(MBSRC)/MB1242.cpp
 
 WiringPiI2C.o: $(I2CSRC)/WiringPiI2C.cpp 
-	g++ -std=c++11 -Wall -I$(I2CINC) -c $(I2CSRC)/WiringPiI2C.cpp
+	g++ -std=c++11 -Wall -I$(CPSRC) -c $(I2CSRC)/WiringPiI2C.cpp
 
-main.o: main.cpp 
-	g++ -std=c++11 -Wall -c main.cpp
+main.o: $(CPEXT)/main.cpp 
+	g++ -std=c++11 -Wall -c $(CPEXT)/main.cpp
 
 edit:
 	vim ShowDistance.cpp
